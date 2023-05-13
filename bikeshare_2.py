@@ -114,30 +114,28 @@ def station_stats(df):
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-    # display most commonly used start station
+    # Display most commonly used start and end stations
     start_station_counts = df['Start Station'].value_counts()
+    end_station_counts = df['End Station'].value_counts()
+
     common_start_station = start_station_counts.idxmax()
     count_common_start_station = start_station_counts.max()
-    print('Most commonly used start station is:', common_start_station)
-    print('Count:', count_common_start_station)
 
-
-    # display most commonly used end station
-    end_station_counts = df['End Station'].value_counts()
     common_end_station = end_station_counts.idxmax()
     count_common_end_station = end_station_counts.max()
-    print('Most commonly used start station is:', common_end_station)
-    print('Count:', count_common_end_station)
 
+    print('Most commonly used start station is: {}, count: {}'.format(common_start_station, count_common_start_station))
+    print('Most commonly used end station is: {}, count: {}'.format(common_end_station, count_common_end_station))
 
-    # display most frequent combination of start station and end station trip
-    trip_counts = df.groupby(['Start Station', 'End Station']).size().reset_index(name='count')
-    popular_station = trip_counts.loc[trip_counts['count'].idxmax()]
-    print('The most common trip from start to end is from {} to {}, with a count of {}.'.format(popular_station['Start Station'], popular_station['End Station'], popular_station['count']))
+    # Display most frequent combination of start station and end station trip
+    popular_station = df.groupby(['Start Station', 'End Station']).size().idxmax()
+    popular_station_count = df.groupby(['Start Station', 'End Station']).size().max()
 
+    print('Most common trip from start to end is from {}, to {}, count: {}'.format(popular_station[0], popular_station[1], popular_station_count))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
+
 
 
 def trip_duration_stats(df):
