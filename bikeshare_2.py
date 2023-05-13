@@ -130,7 +130,7 @@ def station_stats(df):
     print('Count:', count_common_end_station)
 
 
-    # display most frequent combination of start station and end station trip
+    # display most frequent combination of start station and end station trip including the count of trips
     trip_counts = df.groupby(['Start Station', 'End Station']).size().reset_index(name='count')
     popular_station = trip_counts.loc[trip_counts['count'].idxmax()]
     print('The most common trip from start to end is from {} to {}, with a count of {}.'.format(popular_station['Start Station'], popular_station['End Station'], popular_station['count']))
@@ -173,7 +173,7 @@ def user_stats(df):
     try:
         gender_count = df['Gender'].value_counts()
         print('The gender of people travelling are:', gender_count)
-    
+
     except:
         print('The gender count data is not available')
 
@@ -207,7 +207,7 @@ def raw_data(df):
             start_location += 5
         else:
             raw_data = input('Your input is invalid. Please enter only yes or no').lower()
-        
+
     return df
 
 
